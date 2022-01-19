@@ -1,0 +1,88 @@
+﻿时隔多日没有发博客了，今天看到这个题觉得很有趣因此觉得需要发个博客记录一下这道题目
+
+首先附上题目
+
+本题要求你实现一个程序，自动检查你朋友给你发来的信息里有没有 chi1 huo3 guo1。
+
+输入格式：
+
+> 输入每行给出一句不超过 80 个字符的、以回车结尾的朋友信息，信息为非空字符串，仅包括字母、数字、空格、可见的半角标点符号。当读到某一行只有一个英文句点 . 时，输入结束，此行不算在朋友信息里。
+
+
+输出格式：
+
+> 首先在一行中输出朋友信息的总条数。然后对朋友的每一行信息，检查其中是否包含 chi1 huo3 guo1，并且统计这样厉害的信息有多少条。在第二行中首先输出第一次出现 chi1 huo3 guo1 的信息是第几条（从 1 开始计数），然后输出这类信息的总条数，其间以一个空格分隔。题目保证输出的所有数字不超过 100。
+
+如果朋友从头到尾都没提 chi1 huo3 guo1 这个关键词，则在第二行输出一个表情 -_-#。
+
+输入样例 1：
+
+> Hello!
+are you there?
+wantta chi1 huo3 guo1?
+that's so li hai le
+our story begins from chi1 huo3 guo1 le
+.
+
+输出样例 1：
+
+> 5
+3 2
+
+这道题目其实非常简单，我们只需要统计输入了几句话，第一次出现吃火锅是在第几句话，总共有几句中包含了吃火锅。
+
+在这道题目的代码中我们用到了一些函数，例如：strcmp()函数，strcmp函数是C/C++中基本的函数，它对两个字符串进行比较，然后返回比较结果，函数形式如下：
+
+> int strcmp(const char* str1, const char* str2);
+str1和str2可以是字符串常量或者字符串变量，返回值为整形。返回结果如下规定：
+① str1小于str2，返回负值或者-；                
+② str1等于str2，返回0；
+③ str1大于str2，返回正值或者1；
+
+
+char * strncpy(char * str2, char * str1, int size);
+功能就是复制str1中的内容，赋进str2中，复制的长度由size的数值决定，size的类型不一定是Int，但我们一般来说遇到的长度都是整数.
+
+本道题如此写的优点在于将一些字符串放到字符数组中，方便调用
+
+
+
+```c
+#include <stdio.h>
+#include <string.h>
+int main(){
+	char a[81];
+	char chi[]="chi1 huo3 guo1";
+	char dian[]=".";
+	char dingyi[15];
+	int len,count=0,t=0,rem=0;
+	gets(a);
+	while(strcmp(a,dian)!=0){
+		count++;
+		for(int i=0;i<strlen(a);i++){
+			if(a[i]=='c'){
+				strncpy(dingyi,a+i,14);
+				dingyi[14]='\0';
+				if(strcmp(dingyi,chi)==0){
+					t++;
+					if(t==1){
+						rem=count;
+					}
+					break;
+				} 
+			}
+		}
+	gets(a);
+	}
+	if(t==0){
+		printf("%d\n-_-#\n",count);
+	}
+	else{
+		printf("%d\n%d %d\n",count,rem,t);
+	}
+	return 0;
+}
+
+```
+
+到此本道题的讲解就结束了，希望大家能够提出宝贵的意见，博主也会尽量为大家带来更多有意思的题的（因为博主比较懒）。
